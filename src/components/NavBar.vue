@@ -27,7 +27,7 @@ import { Vue, Component } from "vue-property-decorator";
 })
 export default class NavBar extends Vue {
   get isLogin() {
-    return true;
+    return this.$store.getters.isLogin;
   }
 }
 </script>
