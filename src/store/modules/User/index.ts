@@ -1,7 +1,7 @@
 import { ActionContext } from "vuex";
 import { RootState } from "@/store";
 import { Vue } from "vue-property-decorator";
-import { loginHelper } from "@/helpers/api/loginHelper.ts";
+import { loginHelper, registrationHelper } from "@/helpers/api/loginHelper.ts";
 import router from "@/router";
 
 export interface UserStateType {
@@ -49,21 +49,37 @@ const actions = {
     loginPayload: { userName: string; password: string }
   ) {
     return new Promise((resolve, reject) => {
-      alert();
       loginHelper(loginPayload.userName, loginPayload.password)
         .then(user => {
-          context.commit("setUserStatus", {
-            userName: user.userName,
-            id: user.id,
-            status: true
-          });
+          context.commit("setUserStatus", user);
           resolve();
           router.push("/");
         })
-        .catch(() => {
-          alert();
+        .catch(er => {
           context.commit("setUserStatus", { status: false });
-          reject();
+          reject(er);
+        });
+    });
+  },
+  async registration(
+    context: ActionContext<UserStateType, RootState>,
+    loginPayload: { userName: string; password: string; repeatPassword: string }
+  ) {
+    return new Promise((resolve, reject) => {
+      registrationHelper(
+        loginPayload.userName,
+        loginPayload.password,
+        loginPayload.repeatPassword
+      )
+        .then(() => {
+          context.dispatch("login", {
+            userName: loginPayload.userName,
+            password: loginPayload.password
+          });
+          resolve();
+        })
+        .catch(er => {
+          reject(er);
         });
     });
   }

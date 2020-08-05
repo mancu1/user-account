@@ -1,0 +1,48 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "userName": "mancu1",
+      "password": "mancu1"
+    },
+    {
+      "userName": "mancu3",
+      "password": "mancu3",
+      "id": 2
+    },
+    {
+      "userName": "mancu4",
+      "password": "mancu4",
+      "id": 3
+    }
+  ],
+  "usersData": [
+    {
+      "properties": [
+        {
+          "name": "test",
+          "value": "val"
+        }
+      ],
+      "id": 2
+    },
+    {
+      "properties": [
+        {
+          "name": "name",
+          "value": "value"
+        }
+      ],
+      "id": 3
+    },
+    {
+      "id": 1,
+      "properties": [
+        {
+          "name": "test1",
+          "value": "val"
+        }
+      ]
+    }
+  ]
+}
