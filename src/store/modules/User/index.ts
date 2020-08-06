@@ -1,8 +1,13 @@
 import { ActionContext } from "vuex";
 import { RootState } from "@/store";
 import { Vue } from "vue-property-decorator";
-import { loginHelper, registrationHelper } from "@/helpers/api/loginHelper.ts";
+import {
+  loginHelper,
+  registrationHelper,
+  UserStatus
+} from "@/helpers/api/loginHelper.ts";
 import router from "@/router";
+import { getUserData, GetUserData, Property } from "@/helpers/api/usersData";
 
 export interface UserStateType {
   loginForm: {
@@ -10,20 +15,8 @@ export interface UserStateType {
     password: string;
     repeatPassword: string;
   };
-  loginStatus:
-    | {
-        status: false;
-      }
-    | {
-        status: true;
-        userName: string;
-        id: number;
-      };
-  userData: {
-    id: number;
-    userName: string;
-    properties: { name: string; value: string }[];
-  } | null;
+  loginStatus: UserStatus;
+  userData: GetUserData | null;
 }
 
 const state: UserStateType = {
@@ -82,6 +75,21 @@ const actions = {
           reject(er);
         });
     });
+  },
+  async getUserData(
+    context: ActionContext<UserStateType, RootState>,
+    id: number
+  ) {
+    return new Promise((resolve, reject) => {
+      getUserData(id)
+        .then(userData => {
+          context.commit("setUsersData", userData);
+          resolve();
+        })
+        .catch(() => {
+          reject();
+        });
+    });
   }
 };
 
@@ -97,6 +105,12 @@ const mutations = {
     userStatusPayload: { userName?: string; id?: number; status: boolean }
   ) {
     Vue.set(state, "loginStatus", userStatusPayload);
+  },
+  setUsersData(store: UserStateType, userData: GetUserData) {
+    Vue.set(store, "userData", userData);
+  },
+  setUserDataProperties(store: UserStateType, properties: Property[]) {
+    if (store.userData) Vue.set(store.userData, "properties", properties);
   }
 };
 

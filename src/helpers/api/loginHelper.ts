@@ -6,12 +6,18 @@ interface GetUserLogin {
   password: string;
 }
 
+interface UserLogoutStatus {
+  status: false;
+}
+interface UserLoginStatus {
+  status: true;
+  userName: string;
+  id: number;
+}
+export type UserStatus = UserLoginStatus | UserLogoutStatus;
+
 export async function loginHelper(userName: string, password: string) {
-  return new Promise<{
-    userName: string;
-    id: number;
-    status: true;
-  }>((resolve, reject) => {
+  return new Promise<UserLoginStatus>((resolve, reject) => {
     Axios.get<GetUserLogin[]>(
       `http://localhost:3001/users?userName=${userName}`
     )

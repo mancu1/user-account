@@ -36,13 +36,17 @@
       "id": 3
     },
     {
-      "id": 1,
       "properties": [
         {
           "name": "test1",
           "value": "val"
+        },
+        {
+          "name": "test2",
+          "value": "val"
         }
-      ]
+      ],
+      "id": 1
     }
   ]
 }
