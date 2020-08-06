@@ -30,5 +30,13 @@ import SignUpForm from "@/components/Auth/SignUpForm.vue";
 })
 export default class Auth extends Vue {
   private currentTab = null;
+
+  get isLogin(): boolean {
+    return this.$store.getters.isLogin;
+  }
+
+  private created() {
+    if (this.isLogin) this.$router.push("/");
+  }
 }
 </script>

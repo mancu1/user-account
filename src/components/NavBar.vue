@@ -10,7 +10,7 @@
           <v-img contain height="60" alt="Vue logo" src="../assets/logo.png" />
         </v-col>
         <v-col cols="3">
-          <v-btn v-if="isLogin" to="/login">
+          <v-btn v-if="isLogin" @click="logout">
             Выход
           </v-btn>
         </v-col>
@@ -28,6 +28,10 @@ import { Vue, Component } from "vue-property-decorator";
 export default class NavBar extends Vue {
   get isLogin() {
     return this.$store.getters.isLogin;
+  }
+
+  logout() {
+    this.$store.dispatch("logout");
   }
 }
 </script>
