@@ -22,9 +22,11 @@ export interface UserStateType {
   };
   loginStatus: UserStatus;
   userData: GetUserData | null;
+  notify: { message: string; error: boolean };
 }
 
 const state: UserStateType = {
+  notify: { message: "", error: false },
   loginForm: {
     userName: "",
     password: "",
@@ -58,6 +60,11 @@ const actions = {
           router.push("/");
         })
         .catch(er => {
+          context.dispatch("newErrorNotify", {
+            title: er.status,
+            message: er.text,
+            error: true
+          });
           context.commit("setUserStatus", { status: false });
           reject(er);
         });
@@ -86,6 +93,11 @@ const actions = {
           resolve();
         })
         .catch(er => {
+          context.dispatch("newErrorNotify", {
+            title: er.status,
+            message: er.text,
+            error: true
+          });
           reject(er);
         });
     });
@@ -100,7 +112,12 @@ const actions = {
           context.commit("setUsersData", userData);
           resolve();
         })
-        .catch(() => {
+        .catch(er => {
+          context.dispatch("newErrorNotify", {
+            title: er.status,
+            message: er.text,
+            error: true
+          });
           reject();
         });
     });
@@ -134,14 +151,51 @@ const actions = {
     }
     const userData: GetUserData | null = context.state.userData;
     if (userData) {
-      return setUserData(userData.id, userData.properties);
+      setUserData(userData.id, userData.properties)
+        .then(() => {
+          context.dispatch("newMessageNotify", {
+            title: "Success",
+            message: `${propertiesActionPayload.action} done`,
+            error: true
+          });
+        })
+        .catch(er => {
+          context.dispatch("newErrorNotify", {
+            title: er.status,
+            message: er.text,
+            error: true
+          });
+        });
     } else {
+      context.dispatch("newErrorNotify", {
+        title: "Error",
+        message: "User not created",
+        error: true
+      });
       return Promise.reject();
     }
+  },
+  async newErrorNotify(
+    context: ActionContext<UserStateType, RootState>,
+    textObj: { title: string; message: string }
+  ) {
+    context.commit("setNotifyMessage", { ...textObj, error: true });
+  },
+  async newMessageNotify(
+    context: ActionContext<UserStateType, RootState>,
+    textObj: { title: string; message: string }
+  ) {
+    context.commit("setNotifyMessage", { ...textObj, error: false });
   }
 };
 
 const mutations = {
+  setNotifyMessage(
+    state: UserStateType,
+    notify: { title: string; message: string; error: boolean }
+  ) {
+    state.notify = notify;
+  },
   setFormData(
     state: UserStateType,
     formPayload: { name: string; value: string }

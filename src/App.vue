@@ -13,6 +13,7 @@
     <v-footer app>
       <!-- -->
     </v-footer>
+    <Notify />
   </v-app>
 </template>
 
@@ -29,9 +30,10 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import NavBar from "@/components/NavBar.vue";
+import Notify from "@/components/Notify.vue";
 
 @Component({
-  components: { NavBar }
+  components: { Notify, NavBar }
 })
 export default class App extends Vue {}
 </script>
