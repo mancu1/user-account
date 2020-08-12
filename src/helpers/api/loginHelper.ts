@@ -18,9 +18,7 @@ export type UserStatus = UserLoginStatus | UserLogoutStatus;
 
 export async function loginHelper(userName: string, password: string) {
   return new Promise<UserLoginStatus>((resolve, reject) => {
-    Axios.get<GetUserLogin[]>(
-      `http://localhost:3001/users?userName=${userName}`
-    )
+    Axios.get<GetUserLogin[]>(`users?userName=${userName}`)
       .then(res => {
         if (res.data.length > 0) {
           const user: GetUserLogin = res.data[0];
@@ -51,15 +49,19 @@ export async function registrationHelper(
   if (password === repeatPassword) {
     try {
       const users = await Axios.get<GetUserLogin[]>(
-        `http://localhost:3001/users?userName=${userName}`
+        `users?userName=${userName}`
       );
       if (users.data.length > 0) {
         return Promise.reject({ status: 500, text: "Users created" });
       } else {
-        return Axios.post("http://localhost:3001/users", {
-          userName,
-          password
-        });
+        return Axios.post(
+          // "http://localhost:3001/users",
+          "users",
+          {
+            userName,
+            password
+          }
+        );
       }
     } catch (e) {
       return Promise.reject(e);
