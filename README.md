@@ -1,24 +1,25 @@
-# user-account
+# Mancu1
+# application: user's personal account
+
+приложение личного кабинета
+
+## Used Technologies
+- Vue
+- Vuex
+- typescript
+- Axios
+- Vue cli
+- json server
 
 ## Project setup
 ```
 yarn install
 ```
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
+### Run project
 ```
 yarn build
+
+yarn json-server
 ```
 
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
