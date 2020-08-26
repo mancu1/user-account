@@ -1,6 +1,15 @@
 {
   "users": [
+    {
+      "userName": "mancu1",
+      "password": "mancu1",
+      "id": 1
+    }
   ],
   "usersData": [
+    {
+      "properties": [],
+      "id": 1
+    }
   ]
 }
