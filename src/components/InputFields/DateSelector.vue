@@ -9,8 +9,8 @@
     <template v-slot:activator="{ on, attrs }">
       <v-text-field
         :rules="[rules.required]"
-        v-bind:value="value"
-        label="Picker in menu"
+        :value="timeFormatted"
+        :label="label"
         prepend-icon="mdi-calendar"
         readonly
         v-bind="attrs"
@@ -26,22 +26,28 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Model } from "vue-property-decorator";
+import { Vue, Component, Model, Prop } from "vue-property-decorator";
 import Rules from "@/helpers/rules/RulesHelper";
+import moment from "moment";
 
 @Component({
   name: "DateSelector",
 })
 export default class DateSelector extends Vue {
-  @Model("input", { type: String }) readonly value!: string;
+  @Model("input", { type: Date }) readonly value!: Date;
+  @Prop() label: string | undefined;
 
-  preDate = this.value;
+  preDate = this.value.toISOString().substr(0, 10);
   rules = Rules;
   menu = false;
 
+  get timeFormatted(): string {
+    return moment(this.preDate).format("DD MMM YYYY");
+  }
+
   returnValue() {
     this.menu = false;
-    this.$emit("input", this.preDate);
+    this.$emit("input", moment(this.preDate).toDate());
   }
 }
 </script>

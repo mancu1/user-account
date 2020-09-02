@@ -4,14 +4,14 @@ import { Vue } from "vue-property-decorator";
 import {
   loginHelper,
   registrationHelper,
-  UserStatus
+  UserStatus,
 } from "@/helpers/api/loginHelper.ts";
 import router from "@/router";
 import {
   getUserData,
   GetUserData,
   Property,
-  setUserData
+  setUserData,
 } from "@/helpers/api/usersData";
 
 export interface UserStateType {
@@ -30,12 +30,14 @@ const state: UserStateType = {
   loginForm: {
     userName: "",
     password: "",
-    repeatPassword: ""
+    repeatPassword: "",
   },
   loginStatus: {
-    status: false
+    status: true,
+    userName: "mancu1",
+    id: 0,
   },
-  userData: null
+  userData: null,
 };
 
 const getters = {
@@ -44,7 +46,7 @@ const getters = {
   getUserId: (state: UserStateType) =>
     "id" in state.loginStatus ? state.loginStatus.id : undefined,
   getUserData: (state: UserStateType) => state.userData,
-  getUserStatus: (state: UserStateType) => state.loginStatus
+  getUserStatus: (state: UserStateType) => state.loginStatus,
 };
 
 const actions = {
@@ -54,16 +56,16 @@ const actions = {
   ) {
     return new Promise((resolve, reject) => {
       loginHelper(loginPayload.userName, loginPayload.password)
-        .then(user => {
+        .then((user) => {
           context.commit("setUserStatus", user);
           resolve();
           router.push("/");
         })
-        .catch(er => {
+        .catch((er) => {
           context.dispatch("newErrorNotify", {
             title: er.status,
             message: er.text,
-            error: true
+            error: true,
           });
           context.commit("setUserStatus", { status: false });
           reject(er);
@@ -88,15 +90,15 @@ const actions = {
         .then(() => {
           context.dispatch("login", {
             userName: loginPayload.userName,
-            password: loginPayload.password
+            password: loginPayload.password,
           });
           resolve();
         })
-        .catch(er => {
+        .catch((er) => {
           context.dispatch("newErrorNotify", {
             title: er.status,
             message: er.text,
-            error: true
+            error: true,
           });
           reject(er);
         });
@@ -108,15 +110,15 @@ const actions = {
   ) {
     return new Promise((resolve, reject) => {
       getUserData(id)
-        .then(userData => {
+        .then((userData) => {
           context.commit("setUsersData", userData);
           resolve();
         })
-        .catch(er => {
+        .catch((er) => {
           context.dispatch("newErrorNotify", {
             title: er.status,
             message: er.text,
-            error: true
+            error: true,
           });
           reject();
         });
@@ -156,21 +158,21 @@ const actions = {
           context.dispatch("newMessageNotify", {
             title: "Success",
             message: `${propertiesActionPayload.action} done`,
-            error: true
+            error: true,
           });
         })
-        .catch(er => {
+        .catch((er) => {
           context.dispatch("newErrorNotify", {
             title: er.status,
             message: er.text,
-            error: true
+            error: true,
           });
         });
     } else {
       context.dispatch("newErrorNotify", {
         title: "Error",
         message: "User not created",
-        error: true
+        error: true,
       });
       return Promise.reject();
     }
@@ -186,7 +188,7 @@ const actions = {
     textObj: { title: string; message: string }
   ) {
     context.commit("setNotifyMessage", { ...textObj, error: false });
-  }
+  },
 };
 
 const mutations = {
@@ -237,12 +239,12 @@ const mutations = {
         }, [])
       );
     }
-  }
+  },
 };
 
 export default {
   mutations,
   actions,
   state,
-  getters
+  getters,
 };

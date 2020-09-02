@@ -6,7 +6,7 @@
       <FullTaskCreatePopup />
     </v-row>
     <v-timeline dense>
-      <v-timeline-item right v-for="time in timesArr" :key="time">
+      <v-timeline-item right v-for="time in timeTasks" :key="time.time">
         <v-row class="pt-1">
           <v-col
             xl="1"
@@ -16,15 +16,14 @@
             cols="3"
             class="d-flex align-center"
           >
-            <strong>{{ time }}</strong>
+            <strong>{{ time.time }}</strong>
           </v-col>
           <v-col>
             <v-card>
-              <v-card v-for="y in getRandomInt(5)" :key="y">
-                <v-card-title>Зачада № {{ y }}</v-card-title>
-                <v-card-text>Описание задачи {{ y }}</v-card-text>
-              </v-card>
-              <ShortTaskForm :time="time" />
+              <div v-for="(task, ind) in time.tasks" :key="ind">
+                <ShortTask v-bind:task="task" :ind="ind" />
+              </div>
+              <ShortTaskForm class="mt-1" :time="time" />
             </v-card>
           </v-col>
         </v-row>
@@ -41,10 +40,12 @@ import UserProperties from "@/components/Proprties/UserProperties.vue";
 import FullTaskCreatePopup from "@/components/popup/FullTaskCreatePopup.vue";
 import Rules from "@/helpers/rules/RulesHelper";
 import ShortTaskForm from "@/components/TaskForm/ShortTaskForm.vue";
+import { TimeTasksType } from "@/store/modules/Tasks";
+import ShortTask from "@/components/Tasks/ShortTask.vue";
 
 @Component({
   name: "UserData",
-  components: { ShortTaskForm, FullTaskCreatePopup, UserProperties },
+  components: { ShortTask, ShortTaskForm, FullTaskCreatePopup, UserProperties },
 })
 export default class UserData extends Vue {
   menu2 = false;
@@ -74,31 +75,8 @@ export default class UserData extends Vue {
     }
   }
 
-  timesArr = [
-    "00:00",
-    "01:00",
-    "02:00",
-    "03:00",
-    "04:00",
-    "05:00",
-    "06:00",
-    "07:00",
-    "08:00",
-    "09:00",
-    "10:00",
-    "11:00",
-    "12:00",
-    "13:00",
-    "14:00",
-    "15:00",
-    "16:00",
-    "17:00",
-    "18:00",
-    "19:00",
-    "20:00",
-    "21:00",
-    "22:00",
-    "23:00",
-  ];
+  get timeTasks(): TimeTasksType[] {
+    return this.$store.getters.getTimeTasks;
+  }
 }
 </script>

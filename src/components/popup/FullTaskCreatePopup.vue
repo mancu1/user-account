@@ -17,6 +17,10 @@ import FullForm from "@/components/TaskForm/FullForm.vue";
 })
 export default class FullTaskCreatePopup extends Vue {
   dialog = false;
+
+  init() {
+    this.dialog = true;
+  }
 }
 </script>
 

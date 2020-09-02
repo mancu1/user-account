@@ -1,6 +1,5 @@
 <template>
   <v-menu
-    @
     ref="menu"
     v-model="menu"
     :close-on-content-click="false"
@@ -15,7 +14,7 @@
         :rules="[rules.required]"
         v-bind:value="value"
         @change="$emit('input', $event)"
-        label="Picker in menu"
+        :label="label"
         prepend-icon="mdi-timelapse"
         readonly
         v-bind="attrs"
@@ -23,6 +22,8 @@
       ></v-text-field>
     </template>
     <v-time-picker
+      :allowed-hours="allowedHours"
+      :allowed-minutes="allowedMinutes"
       v-if="menu"
       v-model="preTime"
       format="24hr"
@@ -33,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Model } from "vue-property-decorator";
+import { Vue, Component, Model, Prop } from "vue-property-decorator";
 import Rules from "@/helpers/rules/RulesHelper";
 
 @Component({
@@ -41,6 +42,11 @@ import Rules from "@/helpers/rules/RulesHelper";
 })
 export default class TimeSelector extends Vue {
   @Model("input", { type: String }) readonly value!: string;
+  @Prop({ required: false, type: Array }) allowedHours: Array<any> | undefined;
+  @Prop({ required: false, type: Array }) allowedMinutes:
+    | Array<any>
+    | undefined;
+  @Prop() label: string | undefined;
 
   preTime = this.value;
   rules = Rules;
