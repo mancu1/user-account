@@ -9,24 +9,27 @@ const routes: Array<RouteConfig> = [
     path: "/login",
     name: "Auth",
     meta: { login: false },
-    component: () => import(/* webpackChunkName: "about" */ "../views/Auth.vue")
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Auth.vue"),
   },
   {
-    path: "/",
+    path: "*",
     name: "UserAccount",
     meta: { login: true },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/UserData.vue")
-  }
+      import(/* webpackChunkName: "about" */ "../views/UserData.vue"),
+  },
 ];
 
 const router = new VueRouter({
-  mode: "history",
+  // mode: "history",
+  mode: "hash",
+
   base: process.env.BASE_URL,
-  routes
+  routes,
 });
 
 router.beforeEach((to, from, next) => {
