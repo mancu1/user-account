@@ -2,8 +2,14 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import vuetify from "./plugins/vuetify";
+// import vuetify from "./plugins/vuetify";
 import Axios from "axios";
+
+import "tui-calendar/dist/tui-calendar.css";
+
+// If you use the default popups, use this.
+import "tui-date-picker/dist/tui-date-picker.css";
+import "tui-time-picker/dist/tui-time-picker.css";
 
 Vue.directive("click-outside", {
   bind: function (el: any, binding, vnode: any) {
@@ -30,6 +36,6 @@ Vue.config.productionTip = false;
 new Vue({
   router,
   store,
-  vuetify,
+  // vuetify,
   render: (h) => h(App),
 }).$mount("#app");

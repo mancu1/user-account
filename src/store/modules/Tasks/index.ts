@@ -15,11 +15,13 @@ export interface TimeTasksType {
 }
 
 export interface TaskStateType {
+  schedules: any[];
   timeTasks: TimeTasksType[];
   createTask: TaskType;
 }
 
 const state: TaskStateType = {
+  schedules: [],
   timeTasks: [
     { time: "00:00", tasks: [] },
     { time: "01:00", tasks: [] },
@@ -58,11 +60,45 @@ const state: TaskStateType = {
 const getters: GetterTree<TaskStateType, RootState> = {
   getTimeTasks: (state1) => state1.timeTasks,
   getCreateTask: (state1) => state1.createTask,
+  getSchedules: (state1) => state1.schedules,
 };
 
 const actions: ActionTree<TaskStateType, RootState> = {};
 
 const mutations: MutationTree<TaskStateType> = {
+  setSchedules: (state1, payload) => {
+    state1.schedules = payload;
+  },
+  addSchedules: (state1, payload) => {
+    const obj = {
+      bgColor: "#ff5e03",
+      id: `${state1.schedules.length + 1}`,
+      calendarId: payload.calendarId,
+      title: payload.title,
+      category: "time",
+      dueDateClass: "",
+      start: payload.start,
+      end: payload.end,
+      isReadOnly: false,
+    };
+    state1.schedules.push(obj);
+  },
+  editSchedules(state, payload) {
+    const index = state.schedules.findIndex(
+      (el) => el.id === payload.schedule.id
+    );
+    if (index >= 0)
+      state.schedules.splice(index, 1, {
+        ...payload.schedule,
+        ...payload.changes,
+      });
+  },
+  deleteSchedules(state, payload) {
+    const index = state.schedules.findIndex(
+      (el) => el.id === payload.schedule.id
+    );
+    if (index >= 0) state.schedules.splice(index, 1);
+  },
   setCreateTask: (state1, payload: { field: keyof TaskType; value: any }) => {
     state1.createTask[payload.field] = payload.value;
   },
