@@ -14,13 +14,19 @@ export interface TimeTasksType {
   tasks: TaskType[];
 }
 
+export interface TodoTask {
+  title: string;
+}
+
 export interface TaskStateType {
   schedules: any[];
   timeTasks: TimeTasksType[];
   createTask: TaskType;
+  todoTasks: TodoTask[];
 }
 
 const state: TaskStateType = {
+  todoTasks: [{ title: "Задача №1" }, { title: "Задача №2" }],
   schedules: [],
   timeTasks: [
     { time: "00:00", tasks: [] },
@@ -58,6 +64,7 @@ const state: TaskStateType = {
 };
 
 const getters: GetterTree<TaskStateType, RootState> = {
+  getTodoTasks: (state1) => state1.todoTasks,
   getTimeTasks: (state1) => state1.timeTasks,
   getCreateTask: (state1) => state1.createTask,
   getSchedules: (state1) => state1.schedules,
@@ -66,11 +73,15 @@ const getters: GetterTree<TaskStateType, RootState> = {
 const actions: ActionTree<TaskStateType, RootState> = {};
 
 const mutations: MutationTree<TaskStateType> = {
+  setTodoTasks: (state1, payload) => {
+    state1.todoTasks = payload;
+  },
   setSchedules: (state1, payload) => {
     state1.schedules = payload;
   },
   addSchedules: (state1, payload) => {
     const obj = {
+      body: payload.body,
       bgColor: "#ff5e03",
       id: `${state1.schedules.length + 1}`,
       calendarId: payload.calendarId,

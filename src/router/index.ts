@@ -13,7 +13,7 @@ const routes: Array<RouteConfig> = [
       import(/* webpackChunkName: "about" */ "../views/Auth.vue"),
   },
   {
-    path: "*",
+    path: "/dayPage",
     name: "UserAccount",
     meta: { login: true },
     // route level code-splitting
@@ -23,7 +23,7 @@ const routes: Array<RouteConfig> = [
       import(/* webpackChunkName: "about" */ "../views/UserData.vue"),
   },
   {
-    path: "/dayPage",
+    path: "*",
     name: "DayPage",
     meta: { login: true },
     // route level code-splitting

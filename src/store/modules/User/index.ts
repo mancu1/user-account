@@ -41,7 +41,8 @@ const state: UserStateType = {
 };
 
 const getters = {
-  isLogin: (state: UserStateType) => state.loginStatus.status,
+  // isLogin: (state: UserStateType) => state.loginStatus.status,
+  isLogin: (state: UserStateType) => true,
   getLoginForm: (state: UserStateType) => state.loginForm,
   getUserId: (state: UserStateType) =>
     "id" in state.loginStatus ? state.loginStatus.id : undefined,

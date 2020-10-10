@@ -1,21 +1,21 @@
 <template>
   <div>
-    <!--  <v-app>-->
-    <!--    <NavBar />-->
-    <!--    &lt;!&ndash; Sizes your content based upon application components &ndash;&gt;-->
-    <!--    <v-main>-->
-    <!--      &lt;!&ndash; Provides the application the proper gutter &ndash;&gt;-->
-    <!--      <v-container fluid>-->
-    <!--        &lt;!&ndash; If using vue-router &ndash;&gt;-->
-    <router-view></router-view>
-    <!--      </v-container>-->
-    <!--    </v-main>-->
+    <v-app>
+      <NavBar />
+      <!-- Sizes your content based upon application components -->
+      <v-main>
+        <!-- Provides the application the proper gutter -->
+        <v-container fluid>
+          <!-- If using vue-router -->
+          <router-view></router-view>
+        </v-container>
+      </v-main>
 
-    <!--    <v-footer app>-->
-    <!--      &lt;!&ndash; &ndash;&gt;-->
-    <!--    </v-footer>-->
-    <!--    <Notify />-->
-    <!--  </v-app>-->
+      <v-footer app>
+        <!-- -->
+      </v-footer>
+      <Notify />
+    </v-app>
   </div>
 </template>
 
